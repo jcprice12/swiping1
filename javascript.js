@@ -10,7 +10,9 @@ console.log($(slider).height());
 console.log($(myWindow).position().top);
 console.log($(myWindow).height());
 
+//function that actually redraws what's inside the container
 function animate(animateValue){
+	//determine direction of animation
 	if(animateValue > 0){
 		if((($(slider).position().top + animateValue) < 0)){
 			slider.style.top = ($(slider).position().top + animateValue) + "px";
@@ -26,6 +28,7 @@ function animate(animateValue){
 	}
 }
 
+//function to keep scrolling from momentum of previous swipe
 function continueScroling(){
         
     var absoluteValue;
@@ -52,8 +55,9 @@ function continueScroling(){
     }
 }
 
+//on a mouse move animate the content inside a div based on difference of initial and latest positions
 $(".slidewindow").mousemove(function(e){
-	if(mouseIsDown){
+	if(mouseIsDown){//make sure the mouse is down before animating
 		//console.log("mouse move");
 		animate((e.clientY - previousY));
 		lastDifference = (e.clientY - previousY);
@@ -61,6 +65,8 @@ $(".slidewindow").mousemove(function(e){
 	}
 });
 
+//on mousedown get the initial location for animation purposes
+//stop animation
 $(".slidewindow").mousedown(function(e){
 	mouseIsDown = true;
 	lastDifference = 0;
@@ -69,11 +75,13 @@ $(".slidewindow").mousedown(function(e){
 	previousY = e.clientY;
 });
 
+//stop user-animation, start continue scrolling
 $(".slidewindow").mouseup(function(){
 	mouseIsDown = false;
 	continueScroling();
 });
 
+//same functionality as mouseup
 $(".slidewindow").mouseout(function(){
 	mouseIsDown = false;
 	continueScroling();
